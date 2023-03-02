@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -13,7 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $datos['post'] = Post::paginate(2);
+
+        return view('post.index', $datos);
     }
 
     /**
@@ -23,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
     }
 
     /**
@@ -34,7 +38,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validación del formulario de crear
+
+        $campos = [
+            'title' => 'required|string|max:75',
+            'status' => 'required|string|max:75',
+        ];
+
+        $mensaje = [
+            'required' => 'El :attribute es obligatorio.',
+            'max' => 'El campo :attribute no puede tener mas de :max caracteres.',
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
+        $datosPosts = $request;
+
+        Post::insert($datosPosts);
+
+        return redirect('post')->with('mensaje', 'El post ' . $datosPosts['id'] . ' se ha publicado correctamente');
     }
 
     /**
@@ -45,7 +67,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        return view('post.show', compact('post'));
     }
 
     /**
@@ -56,7 +80,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        return view('post.edit', compact('post'));
     }
 
     /**
@@ -68,7 +94,27 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Validación del formulario de crear
+
+        $campos = [
+            'title' => 'required|string|max:75',
+            'status' => 'required|string|max:75',
+        ];
+
+        $mensaje = [
+            'required' => 'El :attribute es obligatorio.',
+            'max' => 'El campo :attribute no puede tener mas de :max caracteres.',
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
+        $datosPosts = $request;
+
+        Post::where('id', '=', $id)->update($datosPosts);
+
+        // $post = Post::findOrFail($id);  
+
+        return redirect('post')->with('mensaje', 'El post ' . $datosPosts['id'] . ' se ha actualizado correctamente');
     }
 
     /**
@@ -79,6 +125,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        if(Storage::delete('public/' . $post->foto)){
+            Post::destroy($id);
+        }
+
+        return redirect('/post')->with('mensaje', 'Se ha eliminado el post ' . $id . ' (' . $post->nombre . ' ' . $post->apellido . ')' . ' correctamente.');
     }
 }

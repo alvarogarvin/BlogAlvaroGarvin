@@ -13,6 +13,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->text(1000),
             'quantity' => random_int(1, 999999),
             'status' => random_int(1, 2000),
+            'seller_id' => $this->faker->numberBetween(1,20)
         ];
     }
 }

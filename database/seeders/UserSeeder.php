@@ -20,7 +20,6 @@ class UserSeeder extends Seeder
         User::factory(20)->create()->each(function($u){
             $u->posts()->saveMany(Post::factory(1)->make());
             $u->comments()->saveMany(Comment::factory(1)->make());
-            // $u->products()->saveMany(Product::factory(1)->make());
         });
     }
 }

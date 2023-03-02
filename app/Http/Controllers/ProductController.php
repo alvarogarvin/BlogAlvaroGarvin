@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -13,7 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $datos['products'] = Product::paginate(10);
+
+        return view('product.index', $datos);
     }
 
     /**
@@ -23,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.create');
     }
 
     /**
@@ -34,7 +38,29 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validación del formulario de crear
+
+        $campos = [
+            'name' => 'required|string|max:75',
+            'description' => 'required|string|max:75',
+            'quantity' => 'required|string|max:75',
+            'description' => 'required|string|max:75',
+        ];
+
+        $mensaje = [
+            'required' => 'El :attribute es obligatorio.',
+            'max' => 'El campo :attribute no puede tener mas de :max caracteres.',
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
+        $datosProduct = $request;
+
+        $datosProduct['seller_id'] = Auth::id();
+
+        Product::insert($datosProduct);
+
+        return redirect('post')->with('mensaje', 'El producto se ha publicado correctamente');
     }
 
     /**

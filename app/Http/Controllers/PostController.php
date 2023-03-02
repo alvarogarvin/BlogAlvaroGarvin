@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -15,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $datos['post'] = Post::paginate(2);
+        $datos['posts'] = Post::paginate(10);
 
         return view('post.index', $datos);
     }
@@ -52,11 +53,13 @@ class PostController extends Controller
 
         $this->validate($request, $campos, $mensaje);
 
-        $datosPosts = $request;
+        $datosPosts = $request->except('_token');
+
+        $datosPosts['user_id'] = Auth::id();
 
         Post::insert($datosPosts);
 
-        return redirect('post')->with('mensaje', 'El post ' . $datosPosts['id'] . ' se ha publicado correctamente');
+        return redirect('post')->with('mensaje', 'El post se ha publicado correctamente');
     }
 
     /**
@@ -127,10 +130,11 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        if(Storage::delete('public/' . $post->foto)){
+        if($post){
             Post::destroy($id);
+            return redirect('/post')->with('mensaje', 'Se ha eliminado el post ' . $id . ' correctamente.');
+        } else {
+            return redirect('/post')->with('mensaje', 'No se ha podido encontrar el post');
         }
-
-        return redirect('/post')->with('mensaje', 'Se ha eliminado el post ' . $id . ' (' . $post->nombre . ' ' . $post->apellido . ')' . ' correctamente.');
     }
 }

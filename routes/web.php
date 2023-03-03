@@ -39,7 +39,7 @@ Route::get('/email', function(){
     // return (new Notification("Alvaro"))->render();
     $mensaje = new Notification("Alvaro");
 
-    $response = Mail::to("alvaro.garvin@escuelaestech.es")->send($mensaje);
+    Mail::to("alvaro.garvin@escuelaestech.es")->send($mensaje);
 
-    dump($response);
+    return redirect('post')->with('mensaje', 'Se ha enviado el correo correctamente');
 });

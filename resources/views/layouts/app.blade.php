@@ -33,7 +33,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                    @if (auth()->check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/post') }}"> {{ __('Posts') }} </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/product') }}"> {{ __('Products') }} </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/email') }}"> {{ __('Email') }} </a>
+                            </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

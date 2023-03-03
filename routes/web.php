@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
+use App\Mail\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +33,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/', [PostController::class, 'index'])->name('home');
+});
+
+Route::get('/email', function(){
+    // return (new Notification("Alvaro"))->render();
+    $mensaje = new Notification("Alvaro");
+
+    $response = Mail::to("alvaro.garvin@escuelaestech.es")->send($mensaje);
+
+    dump($response);
 });

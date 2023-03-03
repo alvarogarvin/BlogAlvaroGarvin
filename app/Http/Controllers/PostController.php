@@ -111,13 +111,11 @@ class PostController extends Controller
 
         $this->validate($request, $campos, $mensaje);
 
-        $datosPosts = $request;
+        $datosPosts = $request->except('_token', '_method');
 
         Post::where('id', '=', $id)->update($datosPosts);
 
-        // $post = Post::findOrFail($id);  
-
-        return redirect('post')->with('mensaje', 'El post ' . $datosPosts['id'] . ' se ha actualizado correctamente');
+        return redirect('post')->with('mensaje', 'El post se ha actualizado correctamente');
     }
 
     /**

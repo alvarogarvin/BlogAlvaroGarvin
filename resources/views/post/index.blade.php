@@ -60,7 +60,7 @@
                                         <form action=" {{ url('post/' . $post->id) }} " method="post">
                                             @csrf
                                             {{ method_field('DELETE') }}
-                                            <input type="submit" onclick="return confirm('Se va a eliminar el usuario #{{ $post->id }})')" class="btn btn-danger" value="Borrar"> 
+                                            <input type="submit" onclick="return confirm('Se va a eliminar el post #{{ $post->id }})')" class="btn btn-danger" value="Borrar"> 
                                         </form>
                                     </div>
                                 </td>

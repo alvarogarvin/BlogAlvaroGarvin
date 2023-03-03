@@ -59,10 +59,10 @@
                                 <td> 
                                     <div class="btn-group" role="group">
                                         <a href="{{ url('/product/' . $product->id . '/edit') }}" class="btn btn-warning"> Editar </a><a href="{{ url('product/' . $product->id) }}" class="btn btn-primary"> Ver </a>
-                                        <form action=" {{ url('product/' . $product->id) }} " method="product">
+                                        <form action=" {{ url('product/' . $product->id) }} " method="post">
                                             @csrf
                                             {{ method_field('DELETE') }}
-                                            <input type="submit" onclick="return confirm('Se va a eliminar el usuario #{{ $product->id }})')" class="btn btn-danger" value="Borrar"> 
+                                            <input type="submit" onclick="return confirm('Se va a eliminar el producto #{{ $product->id }})')" class="btn btn-danger" value="Borrar"> 
                                         </form>
                                     </div>
                                 </td>

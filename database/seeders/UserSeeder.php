@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\Telephone;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +21,7 @@ class UserSeeder extends Seeder
         User::factory(20)->create()->each(function($u){
             $u->posts()->saveMany(Post::factory(1)->make());
             $u->comments()->saveMany(Comment::factory(1)->make());
+            $u->telephones()->saveMany(Telephone::factory(1)->make());
         });
     }
 }

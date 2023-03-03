@@ -33,7 +33,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-itrem">
+                            <a class="nav-link" href="{{ url('/users') }}"> {{ __('Users') }} </a>
+                        </li>
                     @if (auth()->check())
+                            <li class="nav-itrem">
+                                <a class="nav-link" href="{{ url('/telephone') }}"> {{ __('Telephones') }} </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/post') }}"> {{ __('Posts') }} </a>
                             </li>
